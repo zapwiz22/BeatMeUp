@@ -55,7 +55,7 @@ export default function GameCanvas() {
   const [gameOver, setGameOver] = useState(false);
   const gameOverRef = useRef(false);
 
-  // @ts-expect-error
+  // @ts-expect-error: animationFrameIdRef is intentionally not strictly typed
   const animationFrameIdRef = useRef<number>();
 
   useEffect(() => {
