@@ -206,11 +206,16 @@ const TextPressure: React.FC<TextPressureProps> = ({
           color: stroke ? undefined : textColor,
         }}
       >
+        {(() => {
+          spansRef.current = [];
+          return null;
+        })()}
         {chars.map((char, i) => (
           <span
             key={i}
-            // @ts-expect-error: Suppress TypeScript error for ref assignment
-            ref={(el) => (spansRef.current[i] = el)}
+            ref={(el) => {
+              if (el) spansRef.current[i] = el;
+            }}
             data-char={char}
             className="inline-block"
           >
