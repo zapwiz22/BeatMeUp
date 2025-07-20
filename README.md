@@ -35,7 +35,9 @@ A modern, real-time leaderboard web app for a ZType-inspired typing game. Built 
 
 ```bash
 npm install
-npm run dev
+npx prisma generate   # Generate Prisma client
+npx prisma migrate dev # Run migrations and set up the database (first time)
+npm run dev           # Start the development server
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to play and develop.
