@@ -75,9 +75,9 @@ export default function LeaderboardPage() {
           <table className="w-full border-separate border-spacing-y-2">
             <thead>
               <tr className="text-white text-lg border-b border-gray-700">
-                <th className="py-4 px-4 font-semibold text-left">#</th>
-                <th className="px-4 font-semibold text-left">Username</th>
-                <th className="px-4 font-semibold text-right">Score</th>
+                <th className="py-4 font-semibold text-center">#</th>
+                <th className="px-4 font-semibold text-center">Username</th>
+                <th className="px-4 font-semibold text-center">Score</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -99,7 +99,7 @@ export default function LeaderboardPage() {
                         : "text-white hover:bg-white/5"
                     } rounded-lg`}
                   >
-                    <td className="py-3 px-4 text-xl text-left align-middle">
+                    <td className="py-3 px-4 text-xl text-center align-middle">
                       {index === 0
                         ? "🥇"
                         : index === 1
@@ -108,10 +108,10 @@ export default function LeaderboardPage() {
                         ? "🥉"
                         : index + 1}
                     </td>
-                    <td className="px-4 text-left text-lg align-middle">
+                    <td className="px-4 text-center text-lg align-middle">
                       {entry.name}
                     </td>
-                    <td className="px-4 text-right text-lg align-middle">
+                    <td className="px-4 text-center text-lg align-middle">
                       {entry.score.toFixed(2)}
                     </td>
                   </tr>
