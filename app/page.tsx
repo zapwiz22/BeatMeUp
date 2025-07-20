@@ -1,4 +1,3 @@
-import Galaxy from "@/components/Galaxy";
 import HomePage from "@/components/MainPage";
 
 export default function Home() {

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import ShinyText from "./ShinyText";
 
 export default function HomePage() {
   const [username, setUsername] = useState("");
@@ -36,7 +37,7 @@ export default function HomePage() {
 
   return (
     <main className="flex flex-col items-center justify-center min-h-screen text-white p-6">
-      <h1 className="text-4xl font-bold mb-6">
+      <h1 className="text-4xl font-bold">
         <span
           className={
             glow
@@ -52,13 +53,19 @@ export default function HomePage() {
           />
         </span>
       </h1>
+      <ShinyText
+        text="type out the words before it reaches rock-bottom."
+        disabled={false}
+        speed={3}
+        className="mb-12 text-xl"
+      />
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col gap-4 w-full max-w-md"
+        className="flex flex-col gap-4 w-full max-w-md text-center"
       >
         <label htmlFor="username" className="text-lg">
-          Enter your username:
+          enter your username
         </label>
         <input
           id="username"

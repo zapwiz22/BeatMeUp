@@ -35,7 +35,7 @@ export default function GameCanvas() {
     if (!username) {
       router.push("/");
     }
-  }, []);
+  }, [router]);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wordsRef = useRef<Word[]>([]);
@@ -55,7 +55,7 @@ export default function GameCanvas() {
   const [gameOver, setGameOver] = useState(false);
   const gameOverRef = useRef(false);
 
-  // @ts-ignore
+  // @ts-expect-error
   const animationFrameIdRef = useRef<number>();
 
   useEffect(() => {
@@ -156,12 +156,12 @@ export default function GameCanvas() {
 
         ctx.beginPath();
         ctx.arc(explo.x, explo.y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 165, 0, ${alpha})`;
+        ctx.fillStyle = `rgba(255,165,0,${alpha})`;
         ctx.fill();
 
         ctx.beginPath();
         ctx.arc(explo.x, explo.y, radius / 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 0, ${alpha})`; // yellow-ish
+        ctx.fillStyle = `rgba(255,255,0,${alpha})`; // yellow-ish
         ctx.fill();
       }
 
@@ -172,7 +172,12 @@ export default function GameCanvas() {
     return () => cancelAnimationFrame(animationFrameIdRef.current);
   }, [target]);
 
+  const username =
+    typeof window !== "undefined" ? localStorage.getItem("username") : "";
+
   useEffect(() => {
+    if (gameOver) return;
+
     const handleKeyDown = (e: KeyboardEvent) => {
       if (gameOverRef.current) return;
       const char = e.key.toLowerCase();
@@ -236,9 +241,7 @@ export default function GameCanvas() {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [typed, target, gameOver]);
-
-  const username = localStorage.getItem("username");
+  }, [typed, target, gameOver, username]);
 
   return (
     <>

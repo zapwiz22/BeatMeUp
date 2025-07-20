@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   if (existing) {
     result = await prisma.score.update({
       where: { id: existing.id },
-      data: Math.max(existing.score, score),
+      data: { score: Math.max(existing.score, score) },
     });
   } else {
     result = await prisma.score.create({

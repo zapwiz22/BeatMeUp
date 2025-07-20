@@ -114,7 +114,7 @@ const TextPressure: React.FC<TextPressureProps> = ({
     setSize();
     window.addEventListener("resize", setSize);
     return () => window.removeEventListener("resize", setSize);
-  }, [scale, text]);
+  }, [setSize, scale, text]);
 
   useEffect(() => {
     let rafId: number;
@@ -209,7 +209,7 @@ const TextPressure: React.FC<TextPressureProps> = ({
         {chars.map((char, i) => (
           <span
             key={i}
-            // @ts-ignore
+            // @ts-expect-error
             ref={(el) => (spansRef.current[i] = el)}
             data-char={char}
             className="inline-block"
