@@ -68,7 +68,7 @@ export default function GameCanvas() {
 
     const spawnWord = () => {
       const text = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
-      const x = Math.random() * (canvas.width - 100);
+      const x = Math.random() * (canvas.width - 200);
       const y = -30;
       const speed = 0.5 + Math.random();
       wordsRef.current.push({ text, x, y, speed, matchedLength: 0 });

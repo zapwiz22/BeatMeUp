@@ -11,7 +11,11 @@ const firaCode = Fira_Code({
 
 export const metadata: Metadata = {
   title: "BeatMeUp",
-  description: "",
+  description:
+    "A modern, real-time leaderboard web app for a ZType-inspired typing game.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
