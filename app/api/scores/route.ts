@@ -2,10 +2,10 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 const allowedOrigins = [
-  "https://beat-me-up-mauve.vercel.app/",
-  "https://beat-me-up-git-main-jayant-kumars-projects-3fca7f2c.vercel.app/",
-  "https://beat-me-up-jayant-kumars-projects-3fca7f2c.vercel.app/",
-  "https://beat-me-ztutuello-jayant-kumars-projects-3fca7f2c.vercel.app/",
+  "https://beat-me-up-mauve.vercel.app",
+  "https://beat-me-up-git-main-jayant-kumars-projects-3fca7f2c.vercel.app",
+  "https://beat-me-up-jayant-kumars-projects-3fca7f2c.vercel.app",
+  "https://beat-me-ztutuello-jayant-kumars-projects-3fca7f2c.vercel.app",
   "http://localhost:3000", // For local development
 ];
 
