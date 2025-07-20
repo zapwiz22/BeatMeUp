@@ -232,7 +232,7 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
-    let program: Program;
+    // let program: Program; // Removed duplicate declaration
 
     function resize() {
       const scale = 1;
@@ -249,7 +249,7 @@ export default function Galaxy({
     resize();
 
     const geometry = new Triangle(gl);
-    program = new Program(gl, {
+    const program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {

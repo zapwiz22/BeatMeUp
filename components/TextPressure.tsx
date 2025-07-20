@@ -85,36 +85,36 @@ const TextPressure: React.FC<TextPressureProps> = ({
     };
   }, []);
 
-  const setSize = () => {
-    if (!containerRef.current || !titleRef.current) return;
-
-    const { width: containerW, height: containerH } =
-      containerRef.current.getBoundingClientRect();
-
-    let newFontSize = containerW / (chars.length / 2);
-    newFontSize = Math.max(newFontSize, minFontSize);
-
-    setFontSize(newFontSize);
-    setScaleY(1);
-    setLineHeight(1);
-
-    requestAnimationFrame(() => {
-      if (!titleRef.current) return;
-      const textRect = titleRef.current.getBoundingClientRect();
-
-      if (scale && textRect.height > 0) {
-        const yRatio = containerH / textRect.height;
-        setScaleY(yRatio);
-        setLineHeight(yRatio);
-      }
-    });
-  };
-
   useEffect(() => {
+    const setSize = () => {
+      if (!containerRef.current || !titleRef.current) return;
+
+      const { width: containerW, height: containerH } =
+        containerRef.current.getBoundingClientRect();
+
+      let newFontSize = containerW / (chars.length / 2);
+      newFontSize = Math.max(newFontSize, minFontSize);
+
+      setFontSize(newFontSize);
+      setScaleY(1);
+      setLineHeight(1);
+
+      requestAnimationFrame(() => {
+        if (!titleRef.current) return;
+        const textRect = titleRef.current.getBoundingClientRect();
+
+        if (scale && textRect.height > 0) {
+          const yRatio = containerH / textRect.height;
+          setScaleY(yRatio);
+          setLineHeight(yRatio);
+        }
+      });
+    };
+
     setSize();
     window.addEventListener("resize", setSize);
     return () => window.removeEventListener("resize", setSize);
-  }, [setSize, scale, text]);
+  }, [scale, text]);
 
   useEffect(() => {
     let rafId: number;
@@ -209,7 +209,7 @@ const TextPressure: React.FC<TextPressureProps> = ({
         {chars.map((char, i) => (
           <span
             key={i}
-            // @ts-expect-error
+            // @ts-expect-error: Suppress TypeScript error for ref assignment
             ref={(el) => (spansRef.current[i] = el)}
             data-char={char}
             className="inline-block"
