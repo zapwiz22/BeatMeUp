@@ -232,7 +232,7 @@ export default function Galaxy({
       gl.clearColor(0, 0, 0, 1);
     }
 
-    // let program: Program; // Removed duplicate declaration
+    let program: Program;
 
     function resize() {
       const scale = 1;
@@ -249,7 +249,7 @@ export default function Galaxy({
     resize();
 
     const geometry = new Triangle(gl);
-    const program = new Program(gl, {
+    program = new Program(gl, {
       vertex: vertexShader,
       fragment: fragmentShader,
       uniforms: {
@@ -313,16 +313,10 @@ export default function Galaxy({
     animateId = requestAnimationFrame(update);
     ctn.appendChild(gl.canvas);
 
-    // --- Mouse event handlers ---
     function handleMouseMove(e: MouseEvent) {
-      let x, y;
-      if (e instanceof MouseEvent) {
-        x = e.clientX / window.innerWidth;
-        y = 1.0 - e.clientY / window.innerHeight;
-      } else {
-        x = 0.5;
-        y = 0.5;
-      }
+      const rect = ctn.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = 1.0 - (e.clientY - rect.top) / rect.height;
       targetMousePos.current = { x, y };
       targetMouseActive.current = 1.0;
     }
@@ -332,16 +326,16 @@ export default function Galaxy({
     }
 
     if (mouseInteraction) {
-      window.addEventListener("mousemove", handleMouseMove);
-      window.addEventListener("mouseleave", handleMouseLeave);
+      ctn.addEventListener("mousemove", handleMouseMove);
+      ctn.addEventListener("mouseleave", handleMouseLeave);
     }
 
     return () => {
       cancelAnimationFrame(animateId);
       window.removeEventListener("resize", resize);
       if (mouseInteraction) {
-        window.removeEventListener("mousemove", handleMouseMove);
-        window.removeEventListener("mouseleave", handleMouseLeave);
+        ctn.removeEventListener("mousemove", handleMouseMove);
+        ctn.removeEventListener("mouseleave", handleMouseLeave);
       }
       ctn.removeChild(gl.canvas);
       gl.getExtension("WEBGL_lose_context")?.loseContext();
