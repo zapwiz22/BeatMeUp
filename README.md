@@ -55,7 +55,3 @@ Deploy easily on [Vercel](https://vercel.com/) or your favorite platform.
 ## 🙌 Contributing
 
 Pull requests and issues are welcome! Please use clear commit messages and follow the username format for leaderboard entries.
-
-## 📄 License
-
-MIT
