@@ -3,6 +3,7 @@
 import wordlist from "@/config/wordlist";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import TextPressure from "./TextPressure";
 
 type Word = {
   text: string;
@@ -252,8 +253,23 @@ export default function GameCanvas() {
       {gameOver && (
         <div className="absolute inset-0 flex  items-center justify-center bg-black bg-opacity-80 z-20">
           <div className="text-center flex-col flex">
-            <h2 className="text-4xl font-bold text-red-500 mb-4">Game Over</h2>
-            <p className="text-white text-xl mb-2">
+            <h2 className="text-4xl font-bold text-red-500">
+              <div style={{ position: "relative" }}>
+                <TextPressure
+                  text="Game Over!"
+                  flex={true}
+                  alpha={false}
+                  stroke={false}
+                  width={true}
+                  weight={true}
+                  italic={true}
+                  textColor="red"
+                  strokeColor="#ff0000"
+                  minFontSize={50}
+                />
+              </div>
+            </h2>
+            <p className="text-white text-xl mb-2 mt-2">
               Final Score: {score.toFixed(2)} of player {username}
             </p>
             <button

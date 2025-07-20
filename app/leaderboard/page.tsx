@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import ShinyText from "@/components/ShinyText";
 
 interface User {
   name: string;
@@ -38,9 +39,16 @@ export default function LeaderboardPage() {
 
   return (
     <main className="min-h-screen flex flex-col items-center p-6">
-      <p className="text-4xl font-bold leading-none whitespace-pre-wrap mb-6 text-center text-white">
-        LEADERBOARD
-      </p>
+      <div className="relative mb-6 flex items-center justify-center">
+        <div className="text-4xl font-bold leading-none whitespace-pre-wrap text-center text-white relative z-10 px-8 py-2">
+          <ShinyText
+            text="Leaderboard"
+            disabled={false}
+            speed={3}
+            className=""
+          />
+        </div>
+      </div>
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-12">
@@ -63,45 +71,65 @@ export default function LeaderboardPage() {
           <span className="text-white text-lg">Loading</span>
         </div>
       ) : (
-        <div className="w-full max-w-2xl border-2 border-white rounded overflow-hidden">
-          <table className="w-full border-collapse">
+        <div className="w-full max-w-4xl shadow-xl rounded-2xl overflow-hidden">
+          <table className="w-full border-separate border-spacing-y-2">
             <thead>
-              <tr className="text-white text-lg">
-                <th className="py-4 px-4 border-b-2 border-white">#</th>
-                <th className="px-4 border-b-2 border-white">Username</th>
-                <th className="px-4 border-b-2 border-white text-right">
-                  Score
-                </th>
+              <tr className="text-white text-lg border-b border-gray-700">
+                <th className="py-4 px-4 font-semibold text-left">#</th>
+                <th className="px-4 font-semibold text-left">Username</th>
+                <th className="px-4 font-semibold text-right">Score</th>
               </tr>
             </thead>
             <tbody className="text-center">
-              {leaderboard.map((entry, index) => (
-                <tr
-                  key={entry.name + index}
-                  className={`${
-                    entry.name === username
-                      ? "bg-lime-700 text-black font-bold"
-                      : "text-white"
-                  } border-t-2 border-white`}
-                >
-                  <td className="py-3 px-4">{index + 1}</td>
-                  <td className="px-4">{entry.name}</td>
-                  <td className="px-4 text-right">{entry.score.toFixed(2)}</td>
+              {leaderboard.length === 0 ? (
+                <tr>
+                  <td colSpan={3} className="py-8 text-gray-400 text-lg">
+                    No scores yet. Be the first to play!
+                  </td>
                 </tr>
-              ))}
+              ) : (
+                leaderboard.map((entry, index) => (
+                  <tr
+                    key={entry.name + index}
+                    className={`transition-all duration-200 ${
+                      entry.name === username
+                        ? "bg-white/10 text-lime-400 font-bold scale-105 shadow-md"
+                        : index < 3
+                        ? "text-lime-300 font-semibold  hover:bg-white/5"
+                        : "text-white hover:bg-white/5"
+                    } rounded-lg`}
+                  >
+                    <td className="py-3 px-4 text-xl text-left align-middle">
+                      {index === 0
+                        ? "🥇"
+                        : index === 1
+                        ? "🥈"
+                        : index === 2
+                        ? "🥉"
+                        : index + 1}
+                    </td>
+                    <td className="px-4 text-left text-lg align-middle">
+                      {entry.name}
+                    </td>
+                    <td className="px-4 text-right text-lg align-middle">
+                      {entry.score.toFixed(2)}
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
       )}
 
       <button
-        className="mt-8 py-2 px-6 border-2 border-white text-white font-bold hover:bg-white hover:text-black transition-colors"
+        className="cursor-pointer mt-8 py-2 px-6 border-2 border-white text-white font-bold hover:bg-white hover:text-black transition-colors"
         onClick={() => {
           localStorage.removeItem("username");
           router.push("/");
         }}
       >
-        ← Back to Home
+        Back to Home
       </button>
     </main>
   );

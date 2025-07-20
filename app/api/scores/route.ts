@@ -8,11 +8,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Invalid input" }, { status: 400 });
   }
 
-  const newScore = await prisma.score.create({
-    data: { name, score },
-  });
+  const existing = await prisma.score.findFirst({ where: { name } });
+  let result;
+  if (existing) {
+    result = await prisma.score.update({
+      where: { id: existing.id },
+      data: Math.max(existing.score, score),
+    });
+  } else {
+    result = await prisma.score.create({
+      data: { name, score },
+    });
+  }
 
-  return NextResponse.json(newScore);
+  return NextResponse.json(result);
 }
 
 export async function GET() {
