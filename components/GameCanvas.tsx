@@ -111,15 +111,6 @@ export default function GameCanvas() {
           if (executeRecaptcha) {
             captchaToken = await executeRecaptcha("submit");
           }
-          console.log("Submitting score:", {
-            name: username,
-            score: parseFloat(scoreRef.current.toFixed(2)),
-            captchaToken,
-            headers: {
-              "Content-Type": "application/json",
-              "x-frontend-auth": "beatmeup-game",
-            },
-          });
           try {
             const res = await fetch("/api/scores", {
               method: "POST",
