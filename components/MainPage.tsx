@@ -21,7 +21,21 @@ export default function HomePage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setGlow((prev) => !prev);
-    }, 1500); // glow every 1.5 seconds
+    }, 1500);
+    return () => clearInterval(interval);
+  }, []);
+
+  // sound background
+  useEffect(() => {
+    function playRandomSound() {
+      const audio = new window.Audio("/space.mp3");
+      audio.play();
+    }
+
+    const interval = setInterval(() => {
+      playRandomSound();
+    }, 1500);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -31,6 +45,11 @@ export default function HomePage() {
       setError("Please enter a username.");
       return;
     }
+
+    // play start sound
+    const audio = new window.Audio("/start.mp3");
+    audio.play();
+
     localStorage.setItem("username", username.trim());
     router.push("/game");
   };
@@ -69,7 +88,7 @@ export default function HomePage() {
         </label>
         <input
           id="username"
-          className="p-2 text-white rounded outline-none border-b-2 border-b-red-100 text-center" 
+          className="p-2 text-white rounded outline-none border-b-2 border-b-red-100 text-center"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="e.g. Jacob_25075041"

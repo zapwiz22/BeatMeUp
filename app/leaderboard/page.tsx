@@ -17,6 +17,20 @@ export default function LeaderboardPage() {
 
   const router = useRouter();
 
+  // sound background
+  useEffect(() => {
+    function playRandomSound() {
+      const audio = new window.Audio("/space.mp3");
+      audio.play();
+    }
+
+    const interval = setInterval(() => {
+      playRandomSound();
+    }, 1500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   useEffect(() => {
     const stored = localStorage.getItem("username");
     if (stored) setUsername(stored);

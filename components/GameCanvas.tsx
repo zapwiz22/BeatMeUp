@@ -99,6 +99,9 @@ export default function GameCanvas() {
         if (word.y + 5 >= canvas.height) {
           console.log("Game Over triggered by:", word.text, word.y);
           gameOverRef.current = true;
+          // play game ove rsound
+          const audio = new window.Audio("/end.mp3");
+          audio.play();
           setGameOver(true);
           // submitting
           await fetch("/api/scores", {
@@ -183,6 +186,10 @@ export default function GameCanvas() {
 
       if (!/^[a-z]$/.test(char)) return;
 
+      // play keypress sound
+      const audio = new window.Audio("/keypress.mp3");
+      audio.play();
+
       const newTyped = typed + char;
       setTyped(newTyped);
 
@@ -210,6 +217,10 @@ export default function GameCanvas() {
 
         if (newTyped === newTarget.text) {
           wordsRef.current = wordsRef.current.filter((w) => w !== newTarget);
+
+          // play explosion sound
+          const audio = new window.Audio("/explosion.mp3");
+          audio.play();
 
           // explosion
           explosionsRef.current.push({
