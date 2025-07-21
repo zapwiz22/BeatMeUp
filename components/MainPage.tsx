@@ -34,6 +34,7 @@ function MainPageContent() {
   useEffect(() => {
     function playRandomSound() {
       const audio = new window.Audio("/space.mp3");
+      audio.volume = 0.2;
       audio.play();
     }
 
