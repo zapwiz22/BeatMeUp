@@ -69,7 +69,7 @@ export default function HomePage() {
         </label>
         <input
           id="username"
-          className="p-2 text-white rounded outline-none border-b-2 border-b-red-100"
+          className="p-2 text-white rounded outline-none border-b-2 border-b-red-100 text-center" 
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           placeholder="e.g. Jacob_25075041"
