@@ -1,9 +1,15 @@
+"use client";
 import GameCanvas from "@/components/GameCanvas";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 export default function Game() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center p-4">
-      <GameCanvas />
+      <GoogleReCaptchaProvider
+        reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+      >
+        <GameCanvas />
+      </GoogleReCaptchaProvider>
     </main>
   );
 }

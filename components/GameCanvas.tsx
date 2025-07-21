@@ -270,9 +270,7 @@ export default function GameCanvas() {
   }, [typed, target, gameOver, username]);
 
   return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-    >
+    <>
       <canvas
         ref={canvasRef}
         className="fixed top-0 left-0 w-full h-full z-0"
@@ -297,7 +295,7 @@ export default function GameCanvas() {
                   textColor="red"
                   strokeColor="#ff0000"
                   minFontSize={50}
-                />
+                  />
               </div>
             </h2>
             <p className="text-white text-xl mb-2 mt-2">
@@ -323,6 +321,6 @@ export default function GameCanvas() {
           </div>
         </div>
       )}
-    </GoogleReCaptchaProvider>
+      </>
   );
 }
