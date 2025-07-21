@@ -13,7 +13,6 @@ function MainPageContent() {
   const [username, setUsername] = useState("");
   const [error, setError] = useState("");
   const [glow, setGlow] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState("");
   const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
 
@@ -55,21 +54,11 @@ function MainPageContent() {
       setError("CAPTCHA not loaded. Please try again.");
       return;
     }
-    const token = await executeRecaptcha("submit");
-    if (!token) {
-      setError("CAPTCHA failed. Please try again.");
-      return;
-    }
-    setCaptchaToken(token);
-
     // play start sound
     const audio = new window.Audio("/start.mp3");
     audio.play();
-
     localStorage.setItem("username", username.trim());
-    // Send captchaToken to backend with score POST request if needed
-    // After successful CAPTCHA and username entry, pass token to /game page via query string
-    router.push(`/game?captchaToken=${encodeURIComponent(token)}`);
+    router.push("/game");
   };
 
   return (

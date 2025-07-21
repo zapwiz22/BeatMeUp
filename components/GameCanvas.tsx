@@ -4,6 +4,7 @@ import wordlist from "@/config/wordlist";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import TextPressure from "./TextPressure";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 type Word = {
   text: string;
@@ -28,8 +29,9 @@ type Explosion = {
 
 const WORD_LIST = wordlist;
 
-export default function GameCanvas({ captchaToken }: { captchaToken: string }) {
+export default function GameCanvas() {
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   useEffect(() => {
     const username = localStorage.getItem("username");
     if (!username) {
@@ -103,7 +105,11 @@ export default function GameCanvas({ captchaToken }: { captchaToken: string }) {
           const audio = new window.Audio("/end.mp3");
           audio.play();
           setGameOver(true);
-          // submitting
+          // generate captcha token at game end
+          let captchaToken = "";
+          if (executeRecaptcha) {
+            captchaToken = await executeRecaptcha("submit");
+          }
           console.log("Submitting score:", {
             name: username,
             score: parseFloat(scoreRef.current.toFixed(2)),
@@ -182,7 +188,7 @@ export default function GameCanvas({ captchaToken }: { captchaToken: string }) {
 
         ctx.beginPath();
         ctx.arc(explo.x, explo.y, radius / 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,0,${alpha})`; 
+        ctx.fillStyle = `rgba(255,255,0,${alpha})`;
         ctx.fill();
       }
 
@@ -191,7 +197,7 @@ export default function GameCanvas({ captchaToken }: { captchaToken: string }) {
 
     animationFrameIdRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(animationFrameIdRef.current);
-  }, [target, captchaToken]);
+  }, [target, executeRecaptcha]);
 
   const username =
     typeof window !== "undefined" ? localStorage.getItem("username") : "";
