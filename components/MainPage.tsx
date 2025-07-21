@@ -127,11 +127,5 @@ function MainPageContent() {
 }
 
 export default function HomePage() {
-  return (
-    <GoogleReCaptchaProvider
-      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-    >
-      <MainPageContent />
-    </GoogleReCaptchaProvider>
-  );
+  return <MainPageContent />;
 }
