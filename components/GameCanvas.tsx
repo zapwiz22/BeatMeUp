@@ -101,6 +101,7 @@ export default function GameCanvas() {
         if (word.y + 5 >= canvas.height) {
           console.log("Game Over triggered by:", word.text, word.y);
           gameOverRef.current = true;
+          localStorage.removeItem("username");
           // play game over sound
           const audio = new window.Audio("/end.mp3");
           audio.play();
