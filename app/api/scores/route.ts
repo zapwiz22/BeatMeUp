@@ -38,7 +38,11 @@ export async function POST(req: Request) {
   );
   const verifyData = await verifyRes.json();
   console.log("reCAPTCHA verifyData:", verifyData);
-  if (!verifyData.success || verifyData.score < 0.5) {
+  if (
+    !verifyData.success ||
+    verifyData.score < parseFloat("0") ||
+    verifyData.score >= parseFloat(process.env.MAX_LIMIT!)
+  ) {
     return NextResponse.json(
       { error: "Failed CAPTCHA", details: verifyData },
       { status: 403 }
