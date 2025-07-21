@@ -134,7 +134,6 @@ export default function GameCanvas() {
               }),
             });
             const data = await res.json();
-            console.log("API response:", res.status, data);
           } catch (err) {
             console.error("API error:", err);
           }
