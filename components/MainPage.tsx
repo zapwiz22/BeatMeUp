@@ -50,6 +50,10 @@ function MainPageContent() {
       setError("Please enter a username.");
       return;
     }
+    if (!/^\w+$/.test(username.trim())) {
+      setError("Username can only contain letters, numbers, and underscores.");
+      return;
+    }
     if (!executeRecaptcha) {
       setError("CAPTCHA not loaded. Please try again.");
       return;
