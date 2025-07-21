@@ -28,7 +28,7 @@ type Explosion = {
 
 const WORD_LIST = wordlist;
 
-export default function GameCanvas() {
+export default function GameCanvas({ captchaToken }: { captchaToken: string }) {
   const router = useRouter();
   useEffect(() => {
     const username = localStorage.getItem("username");
@@ -99,19 +99,38 @@ export default function GameCanvas() {
         if (word.y + 5 >= canvas.height) {
           console.log("Game Over triggered by:", word.text, word.y);
           gameOverRef.current = true;
-          // play game ove rsound
+          // play game over sound
           const audio = new window.Audio("/end.mp3");
           audio.play();
           setGameOver(true);
           // submitting
-          await fetch("/api/scores", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: username,
-              score: parseFloat(scoreRef.current.toFixed(2)),
-            }),
+          console.log("Submitting score:", {
+            name: username,
+            score: parseFloat(scoreRef.current.toFixed(2)),
+            captchaToken,
+            headers: {
+              "Content-Type": "application/json",
+              "x-frontend-auth": "beatmeup-game",
+            },
           });
+          try {
+            const res = await fetch("/api/scores", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "x-frontend-auth": "beatmeup-game",
+              },
+              body: JSON.stringify({
+                name: username,
+                score: parseFloat(scoreRef.current.toFixed(2)),
+                captchaToken,
+              }),
+            });
+            const data = await res.json();
+            console.log("API response:", res.status, data);
+          } catch (err) {
+            console.error("API error:", err);
+          }
           cancelAnimationFrame(animationFrameIdRef.current!);
           return;
         }
@@ -163,7 +182,7 @@ export default function GameCanvas() {
 
         ctx.beginPath();
         ctx.arc(explo.x, explo.y, radius / 2, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,0,${alpha})`; // yellow-ish
+        ctx.fillStyle = `rgba(255,255,0,${alpha})`; 
         ctx.fill();
       }
 
@@ -172,7 +191,7 @@ export default function GameCanvas() {
 
     animationFrameIdRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(animationFrameIdRef.current);
-  }, [target]);
+  }, [target, captchaToken]);
 
   const username =
     typeof window !== "undefined" ? localStorage.getItem("username") : "";
