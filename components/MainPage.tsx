@@ -4,10 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import ShinyText from "./ShinyText";
-import {
-  GoogleReCaptchaProvider,
-  useGoogleReCaptcha,
-} from "react-google-recaptcha-v3";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 function MainPageContent() {
   const [username, setUsername] = useState("");
@@ -86,6 +83,12 @@ function MainPageContent() {
       </h1>
       <ShinyText
         text="type out the words before it reaches rock-bottom."
+        disabled={false}
+        speed={3}
+        className="text-xl"
+      />
+      <ShinyText
+        text="get it wrong and you need to start the word again."
         disabled={false}
         speed={3}
         className="mb-12 text-xl"

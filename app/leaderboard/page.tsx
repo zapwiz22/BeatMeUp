@@ -32,6 +32,7 @@ export default function LeaderboardPage() {
     return () => clearInterval(interval);
   }, []);
 
+  // now no use as the localStorage item removed 
   useEffect(() => {
     const stored = localStorage.getItem("username");
     if (stored) setUsername(stored);

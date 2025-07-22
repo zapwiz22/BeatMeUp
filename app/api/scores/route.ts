@@ -68,6 +68,12 @@ export async function POST(req: Request) {
 export async function GET() {
   const scorecard = await prisma.score.findMany({
     orderBy: { score: "desc" },
+    where: {
+      score: {
+        gte: 0,
+        lte: 1000,
+      },
+    },
   });
 
   return NextResponse.json(scorecard);

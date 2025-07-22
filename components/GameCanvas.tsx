@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import TextPressure from "./TextPressure";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 type Word = {
   text: string;
@@ -124,7 +125,6 @@ export default function GameCanvas() {
                 captchaToken,
               }),
             });
-            const data = await res.json();
           } catch (err) {
             console.error("API error:", err);
           }
@@ -215,7 +215,7 @@ export default function GameCanvas() {
       if (!newTarget || !newTarget.text.startsWith(newTyped)) {
         newTarget =
           wordsRef.current.find((w) => w.text.startsWith(newTyped)) || null;
-        if (newTarget && newTarget.targetedAt) {
+        if (newTarget && !newTarget.targetedAt) {
           newTarget.targetedAt = performance.now();
         }
         setTarget(newTarget);
@@ -226,8 +226,8 @@ export default function GameCanvas() {
 
         // shooting
         shotsRef.current.push({
-          x: newTarget.x + 30,
-          y: newTarget.y - 10,
+          x: newTarget.x + 10 * newTarget.matchedLength,
+          y: newTarget.y + 10,
           timestamp: performance.now(),
         });
 
@@ -270,7 +270,9 @@ export default function GameCanvas() {
   }, [typed, target, gameOver, username]);
 
   return (
-    <>
+    <GoogleReCaptchaProvider
+      reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+    >
       <canvas
         ref={canvasRef}
         className="fixed top-0 left-0 w-full h-full z-0"
@@ -321,6 +323,6 @@ export default function GameCanvas() {
           </div>
         </div>
       )}
-    </>
+    </GoogleReCaptchaProvider>
   );
 }
