@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import TextPressure from "./TextPressure";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
-import { GoogleReCaptchaProvider } from "react-google-recaptcha-v3";
 
 type Word = {
   text: string;
@@ -295,7 +294,7 @@ export default function GameCanvas() {
                   textColor="red"
                   strokeColor="#ff0000"
                   minFontSize={50}
-                  />
+                />
               </div>
             </h2>
             <p className="text-white text-xl mb-2 mt-2">
@@ -321,6 +320,6 @@ export default function GameCanvas() {
           </div>
         </div>
       )}
-      </>
+    </>
   );
 }
