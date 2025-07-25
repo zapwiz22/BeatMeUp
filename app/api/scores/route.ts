@@ -71,7 +71,7 @@ export async function GET() {
     where: {
       score: {
         gte: 0,
-        lte: 1000,
+        lte: 2000,
       },
     },
   });
