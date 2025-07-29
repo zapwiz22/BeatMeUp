@@ -65,10 +65,10 @@ export default function GameCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // canvas.width = window.innerWidth;
-    canvas.width = 1200;
-    // canvas.height = window.innerHeight;
-    canvas.height = 1000;
+    canvas.width = window.innerWidth;
+    // canvas.width = 1200;
+    canvas.height = window.innerHeight;
+    // canvas.height = 1000;
 
     const spawnWord = () => {
       const text = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
@@ -171,7 +171,7 @@ export default function GameCanvas() {
       for (const explo of explosionsRef.current) {
         const elapsed = now - explo.startTime;
         const alpha = 1 - elapsed / 400;
-        const radius = elapsed/5;
+        const radius = elapsed / 5;
 
         ctx.beginPath();
         ctx.arc(explo.x, explo.y, radius, 0, Math.PI * 2);
