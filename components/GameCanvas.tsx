@@ -133,7 +133,7 @@ export default function GameCanvas() {
           return;
         }
         ctx.font = "30px Fira Code";
-        ctx.fillStyle = word === target ? "lime" : "white";
+        ctx.fillStyle = word === target ? "lime" : "gray";
 
         // highlight the typing word
         const typedText = word.text.slice(0, word.matchedLength);
