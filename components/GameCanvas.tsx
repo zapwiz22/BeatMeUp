@@ -58,6 +58,14 @@ export default function GameCanvas() {
   const gameOverRef = useRef(false);
 
   const animationFrameIdRef = useRef<number>(1);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  // to focus on the input box the start of the game
+  useEffect(() => {
+    if (!gameOver && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [gameOver]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -74,7 +82,7 @@ export default function GameCanvas() {
       const text = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
       const x = Math.random() * (canvas.width - 200);
       const y = -30;
-      const speed = 0.5 + Math.random();
+      const speed = 0.25 + Math.random();
       wordsRef.current.push({ text, x, y, speed, matchedLength: 0 });
     };
 
@@ -84,7 +92,7 @@ export default function GameCanvas() {
 
       // increasing speed after every few seconds
       if (time - lastSpeedRef.current > 5000) {
-        speedMultiplierRef.current += 0.2;
+        speedMultiplierRef.current += 0.05;
         lastSpeedRef.current = time;
       }
 
@@ -197,17 +205,10 @@ export default function GameCanvas() {
   useEffect(() => {
     if (gameOver) return;
 
-    const handleKeyDown = (e: KeyboardEvent) => {
+    const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (gameOverRef.current) return;
-      const char = e.key.toLowerCase();
 
-      if (!/^[a-z]$/.test(char)) return;
-
-      // play keypress sound
-      const audio = new window.Audio("/keypress.mp3");
-      audio.play();
-
-      const newTyped = typed + char;
+      const newTyped = e.target.value.toLowerCase();
       setTyped(newTyped);
 
       // find the target
@@ -260,14 +261,19 @@ export default function GameCanvas() {
 
           setTyped("");
           setTarget(null);
+          if (inputRef.current) {
+            inputRef.current.value = "";
+          }
         }
-      } else {
-        setTyped("");
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    const inputElement = inputRef.current;
+    if (inputElement) {
+      const handler = (e: Event) => handleInput(e as any);
+      inputElement.addEventListener("input", handler);
+      return () => inputElement.removeEventListener("input", handler);
+    }
   }, [typed, target, gameOver, username]);
 
   return (
@@ -275,10 +281,33 @@ export default function GameCanvas() {
       <canvas
         ref={canvasRef}
         className="fixed top-0 left-0 w-full h-full z-0"
+        onContextMenu={(e) => {
+          e.preventDefault();
+          if (!gameOver && inputRef.current) {
+            inputRef.current.focus();
+          }
+        }}
+        onClick={() => {
+          if (!gameOver && inputRef.current) {
+            inputRef.current.focus();
+          }
+        }}
       />
       <div className="absolute top-4 left-4 text-xl font-mono text-white z-10">
         <p>Score: {score.toFixed(2)}</p>
         {username && <p>Player: {username}</p>}
+      </div>
+
+      {/* text input box  */}
+      <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 z-10">
+        <input
+          ref={inputRef}
+          type="text"
+          placeholder="Type words here..."
+          className="px-4 py-2 text-lg font-mono bg-black bg-opacity-70 text-white border-2 border-white rounded-lg focus:outline-none"
+          autoFocus
+          disabled={gameOver}
+        />
       </div>
       {gameOver && (
         <div className="absolute inset-0 flex  items-center justify-center bg-black bg-opacity-80 z-20">
