@@ -122,7 +122,7 @@ export default function GameCanvas() {
             captchaToken = await executeRecaptcha("submit");
           }
           try {
-            const res = await fetch("/api/scores", {
+            await fetch("/api/scores", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -270,7 +270,7 @@ export default function GameCanvas() {
 
     const inputElement = inputRef.current;
     if (inputElement) {
-      const handler = (e: Event) => handleInput(e as any);
+      const handler = (e: Event) => handleInput(e as unknown as React.ChangeEvent<HTMLInputElement>);
       inputElement.addEventListener("input", handler);
       return () => inputElement.removeEventListener("input", handler);
     }
