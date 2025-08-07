@@ -233,6 +233,10 @@ export default function GameCanvas() {
           timestamp: performance.now(),
         });
 
+        // play game over sound
+        const audio = new window.Audio("/keypress.mp3");
+        audio.play();
+
         if (newTyped === newTarget.text) {
           wordsRef.current = wordsRef.current.filter((w) => w !== newTarget);
 
@@ -270,7 +274,8 @@ export default function GameCanvas() {
 
     const inputElement = inputRef.current;
     if (inputElement) {
-      const handler = (e: Event) => handleInput(e as unknown as React.ChangeEvent<HTMLInputElement>);
+      const handler = (e: Event) =>
+        handleInput(e as unknown as React.ChangeEvent<HTMLInputElement>);
       inputElement.addEventListener("input", handler);
       return () => inputElement.removeEventListener("input", handler);
     }
